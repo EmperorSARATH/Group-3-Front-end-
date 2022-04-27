@@ -1,91 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
-
-export default class Remove_user extends React.Component{
-    
-    constructor(props){
+export default class Remove_user extends Component {
+    userData;
+    constructor(props) {
         super(props);
+        this.onChangeName = this.onChangeName.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.state = {
-            uid:'',
-        };
-        
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-       
-
+            uid: []
+        }
     }
-   
-
-    handleChange(event){
-        
-        this.setState({
-            [event.target.name] : event.target.value,
-        });
+    // Form Events
+    onChangeName(e) {
+        this.setState({ uid: e.target.value })
     }
-    handleSubmit(event){
-        event.preventDefault();
-        //this.props.history.push('/login/Dashboard')
-        const user = {
-            
-            uid : this.state.uid
-        
-        };
-        console.log(user);
+    onSubmit(e) {
+        e.preventDefault()
         axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem("token")}`}
-    
-        axios.delete(`http://localhost:8080/user/${JSON.parse(localStorage.getItem("contact_form['userid']"))}`)
-        .then(res=>{
-  
-            //console.log(res)
-            console.log(res.data)
-
-        })
-        .catch((er)=>alert("could not remove user"))
-
+        
+      axios.delete(`http://localhost:8080/user/${localStorage.getItem('id')}`).then(res => {
+        alert("Deleted !!")
+      })
+       
     }
-
-
+    // React Life Cycle
     componentDidMount() {
-        this.DATA = JSON.parse(localStorage.getItem('contact_form'));
-
-        if (localStorage.getItem('contact_form')) {
+        this.userData = JSON.parse(localStorage.getItem('user'));
+   
+        if (localStorage.getItem('user')) {
             this.setState({
-                userid: this.DATA.userid,
+                uid: this.userData.id
+                
             })
+     
         } else {
             this.setState({
-                userid: ''
+               
             })
         }
     }
-
     componentWillUpdate(nextProps, nextState) {
-        localStorage.setItem('contact_form', JSON.stringify(nextState));
+        localStorage.setItem('user', JSON.stringify(nextState));
     }
 
-    render(){
-      
-        return(
-            <form className="form-horizontal" ref="form" onSubmit={this.handleSubmit}>
-                <div><h1>Remove user</h1></div>
-                <div className="form-group">
-                    <div className="col-sm-10 spacing">
-                        <label >UserId</label>
-                         <input type="text" name="userid" onChange={this.handleChange} className="form-control" id="exampleuserid" placeholder="User Id"  defaultValue={this.state.uid} required />
-                      
+    render() {
+        return (
+            <div className="container">
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                        <label>User ID</label>
+                        <input type="text" className="form-control" value={this.state.id }  onChange={this.onChangeName} />
+                        {localStorage.setItem("id",this.state.uid)}
                     </div>
-                </div>
-
-                <br/>
-                <div className="form-group">
-                    <div className="col-sm-offset-2 col-sm-10">
-                        <Button type ="submit" variant="contained">remobve User</Button>
-                    </div>
-                </div>
-            </form>
-     
+    
+                    <Button type="submit" className="btn btn-primary btn-block">Submit</Button>
+                </form>
+            </div>
         )
     }
 }
