@@ -1,0 +1,8 @@
+
+.view_ui{
+    text-align: center;
+    color: rgb(21, 203, 66);
+    display: grid;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}

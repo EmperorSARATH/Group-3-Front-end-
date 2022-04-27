@@ -1,0 +1,41 @@
+
+
+form {
+    border: 1px solid black;
+    margin:0 auto;
+    text-align: center;
+    border-radius: 50px;
+    box-sizing: border-box;
+    height: min-content;
+    padding: 20px;
+    width: 320px;
+}
+
+.spacing{
+    margin-bottom: 10px;
+    display:flex;
+    justify-content: space-between;
+
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+input{
+    border-radius: 20px;
+    padding-left: 10px;
+}
+
+label{
+
+}
+
